@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Http::macro('myAPI', function () {
+            return Http::withBasicAuth('ricko@gmail.com', '12345')
+            ->baseUrl('http://rest-server.test/api');
+        });
     }
 }
