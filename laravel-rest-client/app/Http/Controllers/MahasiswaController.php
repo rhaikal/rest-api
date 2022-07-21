@@ -14,8 +14,7 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $response = Http::myAPI()->get('/mahasiswas', ['apikey' => '1uAxqBhS7iG1v6ma2FWu2MjzHNUdDkM1QZ7DgbEn9LzuVOmM46Mkdoz6IUcQ1wpiU4cgbjMRiFCqQnXq']);
-    
+        $response = Http::myAPI()->get('/mahasiswas');    
         $mahasiswa = $response->collect('data');
 
         return view('mahasiswa.index', [
@@ -30,7 +29,7 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        //
+        return view('mahasiswa.create');
     }
 
     /**
@@ -41,7 +40,24 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nrp' => 'required|max:9',
+            'nama' => 'required',
+            'email' => 'required|email',
+            'jurusan' => 'required'
+        ]);
+
+        $response = Http::myAPI()->post('/mahasiswas', [
+            'form_params' => $validatedData
+        ]);
+
+        if($response->successful()) {
+            return redirect('/mahasiswa')->with('success', 'Berhasil menambahkan mahasiswa baru!');
+        } else if ($response->status() === 429) {
+            return redirect('/mahasiswa')->with('error', 'Fungsi menambahkan data telah mencapai batas!');
+        } else {
+            return redirect('/mahasiswa')->with('error', 'Gagal menambahkan mahasiswa baru!');
+        }
     }
 
     /**

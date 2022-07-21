@@ -1,10 +1,22 @@
 @extends('layouts.main')
 
 @section('container')
-    <div class="container mt-3">
+        <div class="container mt-3">
+        </div class="row mt-3">
+            @if (session('success'))
+                <div class="alert alert-success col-md-6" role="alert">
+                    {{ session('success') }}
+                </div>
+            @elseif (session('error'))
+                <div class="alert alert-danger col-md-6" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif  
+        </div>
+        
         <div class="row mt-3">
             <div class="col-md-6">
-                <a href="{{ url()->current() }}/create" class="btn btn-primary">Tambah
+                <a href="/mahasiswa/create" class="btn btn-primary">Tambah
                     Data Mahasiswa</a>
             </div>
         </div>
@@ -34,11 +46,11 @@
                         @foreach ($mahasiswa as $mhs)
                     <li class="list-group-item">
                         {{ $mhs['nama'] }}
-                        <a href="{{ url()->current() }}/{{ $mhs['id'] }}"
+                        <a href="/mahasiswa/{{ $mhs['id'] }}"
                             class="badge bg-danger float-end text-decoration-none">hapus</a>
-                        <a href="{{ url()->current() }}/{{ $mhs['id'] }}/edit"
+                        <a href="/mahasiswa/{{ $mhs['id'] }}/edit"
                             class="badge bg-success float-end text-decoration-none">ubah</a>
-                        <a href="{{ url()->current() }}/{{ $mhs['id'] }}"
+                        <a href="/mahasiswa/{{ $mhs['id'] }}"
                             class="badge bg-primary float-end text-decoration-none">detail</a>
                     </li>
                     @endforeach
