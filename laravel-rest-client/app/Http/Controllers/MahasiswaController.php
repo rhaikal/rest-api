@@ -39,12 +39,19 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
+        $mahasiswa = $this->all();
+
+        if($mahasiswa->contains('nrp', '===', $request->nrp)){
+            return back()->withErrors(['nrp' => 'The nrp has already been taken.']);
+        }
+
         $validatedData = $request->validate([
             'nrp' => 'required|max:9',
             'nama' => 'required',
             'email' => 'required|email',
             'jurusan' => 'required'
         ]);
+
 
         $response = Http::myAPI()->post('/mahasiswas', $validatedData);
 
