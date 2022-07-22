@@ -94,10 +94,10 @@ class MahasiswaController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
+       
+        $validated = $validator->validated();
 
-        $validatedData = $request->validate($rules);
-
-        $mahasiswa->update($validatedData);
+        $mahasiswa->update($validated);
 
         return new MahasiswaResource(true, 'Data Mahasiswa Berhasil Diubah!', $mahasiswa);
     }

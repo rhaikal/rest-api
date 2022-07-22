@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('container')
-    <div class="container mt-3">
+    <div class="container ms-3 mt-3">
 
         <div class="row mt-3">
             <div class="col-md-6">

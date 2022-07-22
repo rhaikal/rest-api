@@ -14,8 +14,7 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $response = Http::myAPI()->get('/mahasiswas');    
-        $mahasiswa = $response->collect('data');
+        $mahasiswa = $this->all();
 
         return view('mahasiswa.index', [
             'mahasiswa' => $mahasiswa
@@ -47,9 +46,7 @@ class MahasiswaController extends Controller
             'jurusan' => 'required'
         ]);
 
-        $response = Http::myAPI()->post('/mahasiswas', [
-            'form_params' => $validatedData
-        ]);
+        $response = Http::myAPI()->post('/mahasiswas', $validatedData);
 
         if($response->successful()) {
             return redirect('/mahasiswa')->with('success', 'Berhasil menambahkan mahasiswa baru!');
@@ -79,7 +76,11 @@ class MahasiswaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $mahasiswa = $this->get($id);
+
+        return view('mahasiswa.edit', [
+            'mahasiswa' => $mahasiswa
+        ]);
     }
 
     /**
@@ -91,7 +92,27 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $mahasiswa = $this->get($id);
+
+        $rules = [
+            'nama' => 'required',
+            'email' => 'required|email',
+            'jurusan' => 'required'
+        ];
+
+        if($request->nrp != $mahasiswa['nrp']) {
+            $rules['nrp'] = 'required';
+        }
+    
+        $validatedData = $request->validate($rules);
+
+        $response = Http::myAPI()->put('/mahasiswas/'. $id, $validatedData);
+
+        if($response->successful()){
+            return redirect('/mahasiswa')->with('success', 'Berhasil mengubah data mahasiswa!');
+        } else {
+            return redirect('/mahasiswa')->with('error', 'Gagal mengubah data mahasiswa');
+        }
     }
 
     /**
@@ -103,5 +124,26 @@ class MahasiswaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Get all mahasiswa from rest-server.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function all() {
+        $response = Http::myAPI()->get('/mahasiswas');    
+        return $response->collect('data');
+    }
+    
+    /**
+     * Get specified mahasiswa from rest-server.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Support\Collection
+     */
+    public function get($id) {
+        $response = Http::myAPI()->get('/mahasiswas/' . $id);    
+        return $response->collect('data');
     }
 }

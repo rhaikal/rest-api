@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth.basic.once']], function(){
     Route::group(['middleware' => ['auth.key']], function(){
         Route::get('/mahasiswas', [MahasiswaController::class, 'index']);
         Route::get('/mahasiswas/{mahasiswa}', [MahasiswaController::class, 'show']);
-        Route::post('/mahasiswas', [MahasiswaController::class, 'store'])->middleware('throttle:3,60');
+        Route::post('/mahasiswas', [MahasiswaController::class, 'store'])->middleware('throttle:1000, 1440');
         Route::put('/mahasiswas/{mahasiswa}', [MahasiswaController::class, 'update']);
         Route::delete('/mahasiswas/{mahasiswa}', [MahasiswaController::class, 'destroy']);
     });

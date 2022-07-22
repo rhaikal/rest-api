@@ -1,18 +1,20 @@
 @extends('layouts.main')
 
 @section('container')
-        <div class="container mt-3">
-        </div class="row mt-3">
-            @if (session('success'))
+    <div class="container mt-3">
+        @if (session('success'))
+            <div class="row mt-3">
                 <div class="alert alert-success col-md-6" role="alert">
                     {{ session('success') }}
                 </div>
-            @elseif (session('error'))
+            </div>
+        @elseif (session('error'))
+            <div class="row mt-3">
                 <div class="alert alert-danger col-md-6" role="alert">
                     {{ session('error') }}
                 </div>
-            @endif  
-        </div>
+            </div>
+        @endif  
         
         <div class="row mt-3">
             <div class="col-md-6">
