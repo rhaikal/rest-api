@@ -72,7 +72,11 @@ class MahasiswaController extends Controller
      */
     public function show($id)
     {
-        //
+        $mahasiswa = $this->get($id);
+
+        return view('mahasiswa.show', [
+            'mahasiswa' => $mahasiswa
+        ]);
     }
 
     /**
