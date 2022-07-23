@@ -46,20 +46,46 @@
                 @else
                     <ul class="list-group">
                         @foreach ($mahasiswa as $mhs)
-                    <li class="list-group-item">
-                        {{ $mhs['nama'] }}
-                        <a href="/mahasiswa/{{ $mhs['id'] }}"
-                            class="badge bg-danger float-end text-decoration-none">hapus</a>
-                        <a href="/mahasiswa/{{ $mhs['id'] }}/edit"
-                            class="badge bg-success float-end text-decoration-none">ubah</a>
-                        <a href="/mahasiswa/{{ $mhs['id'] }}"
-                            class="badge bg-primary float-end text-decoration-none">detail</a>
-                    </li>
-                    @endforeach
-                </ul>
+                            <li class="list-group-item">
+                                {{ $mhs['nama'] }}
+                                <form action="/mahasiswa/{{ $mhs['id'] }}" method="post" class="float-end">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="badge bg-danger float-end text-decoration-none border border-0" onclick="return confirm('Ingin menghapus data?')"> hapus</button>
+                                </form>
+                                <a href="/mahasiswa/{{ $mhs['id'] }}/edit"
+                                    class="badge bg-success float-end text-decoration-none">ubah</a>
+                                <a href="/mahasiswa/{{ $mhs['id'] }}"
+                                    class="badge bg-primary float-end text-decoration-none">detail</a>
+                            </li>
+                        @endforeach
+                    </ul>
                 @endif
             </div>
         </div>
 
     </div>
+    <script>
+        $('.list-group').on('mouseenter', 'button.badge', function(event) {
+            var elem = $(this);
+            elem.addClass('text-primary');
+        });
+
+        $('.list-group').on('mouseleave', 'button.badge', function(event) {
+            var elem = $(this);
+            elem.removeClass('text-primary');
+        });
+
+        // const buttons = document.querySelectorAll("button[type=submit].badge");
+
+        // buttons.forEach(button =>{
+        //     button.addEventListener('mouseenter', (event) => {
+        //         button.classList.add("text-primary");
+        //     });
+    
+        //     button.addEventListener('mouseleave', (event) => {
+        //         button.classList.remove('text-primary');
+        //     });
+        // });
+    </script>
 @endsection

@@ -134,7 +134,13 @@ class MahasiswaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $response = Http::myAPI()->delete('/mahasiswas/'. $id);
+
+        if($response->successful()){
+            return redirect('/mahasiswa')->with('success', 'Berhasil menghapus data mahasiswa!');
+        } else {
+            return redirect('/mahasiswa')->with('error', 'Gagal menghapus data mahasiswa!');
+        }
     }
 
     /**
